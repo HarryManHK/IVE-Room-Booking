@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML to JS Converter</title>
+  <!-- Bootstrap CSS (v4.5.2) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      margin-top: 20px;
+    }
+    textarea {
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">HTML to JS Converter</h1>
+    <p>Paste your HTML code below. The converter will extract the first element with class <code>bookingItemDetails</code> and use its <code>data-resourceid</code> and <code>data-periodno</code> attributes to generate a JavaScript snippet.</p>
+    
+    <div class="form-group">
+      <label for="inputHtml">Input HTML</label>
+      <textarea id="inputHtml" class="form-control" rows="10" placeholder="Paste your HTML code here..."></textarea>
+    </div>
+    
+    <button onclick="generateCode()" class="btn btn-primary mb-3">Generate JS Code</button>
+    
+    <div class="form-group">
+      <label for="outputJs">Generated JS Code</label>
+      <textarea id="outputJs" class="form-control" rows="10" readonly placeholder="Generated code will appear here..."></textarea>
+    </div>
+    
+    <button id="copyBtn" class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+  </div>
+  
+  <!-- Bootstrap JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+  
+  <script>
+    function generateCode() {
+      // Get the HTML input value
+      var inputHtml = document.getElementById("inputHtml").value;
+      // Parse the HTML using DOMParser
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(inputHtml, "text/html");
+      
+      // Find the first element with class 'bookingItemDetails'
+      var bookingElem = doc.querySelector('.bookingItemDetails');
+      if (!bookingElem) {
+        alert("No element with class 'bookingItemDetails' found.");
+        return;
+      }
+      
+      // Extract the attributes resourceId and periodNo
+      var resourceId = bookingElem.getAttribute("data-resourceid");
+      var periodNo = bookingElem.getAttribute("data-periodno");
+      
+      // Define guest IDs (adjust as needed)
+      var guestIds = [
+        "230330821",
+        "230345477",
+        "230084513",
+        "230185096",
+        "230010420",
+        "230017783",
+        "230010340",
+        "230085398",
+        "230402974",
+        "230169705",
+        "230485401",
+        "230088420",
+        "230074279"
+      ];
+      
+      // Build the JavaScript snippet using template literals
+      var codeSnippet = `// List of guest attendee IDs
+const guestIds = ${JSON.stringify(guestIds, null, 2)};
+
+// Define your resourceId and booking period number (adjust these as needed)
+const resourceId = ${resourceId};
+const periodNo = "${periodNo}";
+
+// Retrieve the booking resource object from your booking system.
+// (This assumes that you have a global 'booking' object as used in your code.)
+const br = booking.getBookResourcesObj(resourceId);
+
+// Function to add guest attendees
+function addGuestAttendees(bookingResource, period, guestIds) {
+  guestIds.forEach(function(id) {
+    // Set a default recipient name and email based on the guest ID.
+    // You may wish to change these values.
+    const recipient = id;
+    const email = id + "@stu.vtc.edu.hk";
+    
+    // Call the method to add the attendee.
+    bookingResource.addAttendeesRow(period, id, recipient, email);
+  });
+}
+
+// Call the function to add the guest attendees.
+addGuestAttendees(br, periodNo, guestIds);`;
+      
+      // Set the generated code into the output textarea
+      document.getElementById("outputJs").value = codeSnippet;
+    }
+    
+    function copyToClipboard() {
+      var output = document.getElementById("outputJs");
+      output.select();
+      output.setSelectionRange(0, 99999); // For mobile devices
+      
+      // Copy the text inside the text field
+      document.execCommand("copy");
+      
+      // Optionally, display a message
+      alert("JS code copied to clipboard!");
+    }
+  </script>
+</body>
+</html>
