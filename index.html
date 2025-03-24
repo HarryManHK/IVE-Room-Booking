@@ -16,7 +16,16 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="mb-4">HTML to JS Converter</h1>
+    <h1 class="mb-4">IVE-Room-Booking StudentID Convertor</h1>
+    <hr/>
+    <h2>Step 1:</h2>
+    <p>Booking Link: <a href="https://ibooking.vtc.edu.hk/user-management/auth/login" target="_blank">https://ibooking.vtc.edu.hk/user-management/auth/login</a></p>
+    
+    <a href="#howToUseIt">How to use it?</a>
+
+    <hr/>
+
+    <h2>Step 2:</h2>
     <p>Paste your HTML code below. The converter will extract the first element with class <code>bookingItemDetails</code> and use its <code>data-resourceid</code> and <code>data-periodno</code> attributes to generate a JavaScript snippet.</p>
     
     <div class="form-group">
@@ -25,13 +34,23 @@
     </div>
     
     <button onclick="generateCode()" class="btn btn-primary mb-3">Generate JS Code</button>
-    
+    <hr/>
+    <h2>Step 3:</h2>
     <div class="form-group">
       <label for="outputJs">Generated JS Code</label>
       <textarea id="outputJs" class="form-control" rows="10" readonly placeholder="Generated code will appear here..."></textarea>
     </div>
     
     <button id="copyBtn" class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <hr/>
+
+    <h2 id="howToUseIt">How to use it?</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/jFHemcMicHw?si=-8mZgwTFmyzEBwFu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <hr/>
+    <h2>GitHub Project:</h2>
+    <a href="https://github.com/HarryManHK/IVE-Room-Booking" target="_blank">Click me</a>
   </div>
   
   <!-- Bootstrap JS, Popper.js, and jQuery -->
